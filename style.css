@@ -1,0 +1,91 @@
+body{
+
+}
+
+
+/*Calculator Style*/
+
+.CalcBox{
+  border-color: #777;
+  border-style: solid;
+  border-width: 2px;
+  margin: 0 auto;
+  background-color: #999;
+  width:319px;
+  height:405px;
+  border-radius: 5px;
+}
+
+.digitizer-main{
+  height:80px;
+  background-color: white;
+  text-align: right;
+  line-height: 300%;
+  padding-top: 35px;
+}
+
+.numout{
+  display: inline-block;
+  width:285px;
+  font-size: 3em;
+  overflow: hidden;
+  vertical-align: bottom;
+  direction: rtl;
+}
+
+.opout{
+  display: inline-block;
+  color:#666;
+  width:20px;
+  font-size: 1.5em;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+
+.digitizer-small{
+  height:50px;
+  background-color: #ddd;
+}
+
+.summary{
+  direction: rtl;
+}
+
+.numpad{
+  padding: 4px;
+  padding-top: 2px;
+  font-size: 1.4em;
+  background-color: #eee;
+}
+
+.btn{
+  padding: 0;
+  vertical-align: middle;
+}
+
+.bStyle{
+  margin-top: 5px;
+  height:48px;
+  width:73px;
+}
+
+.btn-misc{
+  background-color: #999;
+}
+
+.btn-eql{
+   background-color: #bf360c;
+}
+
+.long-btn{
+  width:151px;
+}
+
+.op-btn{
+  background-color: #ff7043;
+}
+
+.num-btn{
+  background-color: #eee;
+  color: #333;
+}

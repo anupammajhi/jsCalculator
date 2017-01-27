@@ -4,9 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
   <title>Javascript Calculator</title>
 </head>
 <body>
+
+  <div class="CalcBox">
+    <div class="digitizer-main">
+      <div class="numout">0</div>
+      <div class="opout"></div>
+    </div>
+    <div class="digitizer-small">
+      <div class="summary">123 + 2345 x 33 - 29</div>
+    </div>
+    <div class="numpad">
+      <a class="waves-effect waves-light btn long-btn bStyle btn-misc">C</a>
+      <!-- <a class="waves-effect waves-light btn"><i class="large material-icons" style="transform:rotate(180deg);">label_outline</i></a> -->
+      <a class="waves-effect waves-light btn bStyle btn-misc">DEL</a>
+      <a class="waves-effect waves-light btn bStyle op-btn">÷</a>
+
+      <a class="waves-effect waves-light btn bStyle num-btn">7</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">8</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">9</a>
+      <a class="waves-effect waves-light btn bStyle op-btn" style="text-transform: lowercase;">x</a>
+
+      <a class="waves-effect waves-light btn bStyle num-btn">4</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">5</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">6</a>
+      <a class="waves-effect waves-light btn bStyle op-btn">&#8212;</a>
+
+      <a class="waves-effect waves-light btn bStyle num-btn">1</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">2</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">3</a>
+      <a class="waves-effect waves-light btn bStyle op-btn">+</a>
+
+      <a class="waves-effect waves-light btn bStyle num-btn">.</a>
+      <a class="waves-effect waves-light btn bStyle num-btn">0</a>
+      <a class="waves-effect waves-light btn long-btn bStyle btn-eql">=</a>
+    </div>
+  </div>
 
 </body>
 </html>
