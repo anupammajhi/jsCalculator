@@ -47,8 +47,16 @@ body{
   background-color: #ddd;
 }
 
+.summaryOuter{
+  overflow: hidden;
+  text-align: right;
+  width: 95%;
+  margin: 0 auto;
+  /*padding-top: 25px;*/
+}
+
 .summary{
-  direction: rtl;
+  float:right;
 }
 
 .numpad{
