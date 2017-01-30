@@ -63,18 +63,15 @@ $("#backspace").click(function() {
   }
 
   var lastChar = calcArr[calcArr.length -1].toString();
-  console.log(lastChar);
 
   if(lastChar.length === 0){
     calcArr.pop();
     lastChar = calcArr[calcArr.length -1].toString();
-    console.log("If 1");
   }
 
   if(/(\+|—|x|÷)/.test(lastChar)){
     //Is an arithmetic operator
     calcArr.pop();
-    console.log("If 2");
   }
   else if(/[0-9]/.test(lastChar)){
     //Is a number
@@ -85,16 +82,13 @@ $("#backspace").click(function() {
     else{
       display(calcArr[calcArr.length - 1],"numout");
     }
-    console.log("If 3");
   }
   else if(/\s/){
     //Is blank
     calcArr.pop();
-    console.log("If 4");
   }
   else{
     //error
     console.log("Problem with Code at backspace ID event");
-    console.log("If 5");
   }
 });
