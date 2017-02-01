@@ -31,12 +31,6 @@ function calc(leftOp,operator,rightOp){
   }
 }
 
-// Scroll to bottom of display
-$(".btn").click(function(){
-  scrollToBottom();
-});
-
-
 //On clicking number buttons
 $(".num-btn").click(function() {
 
@@ -51,7 +45,10 @@ $(".num-btn").click(function() {
     }
   }
   else{
-    if(/(\+|—|x|÷)/.test(lastEntry)){
+    if(calcArr.length === 0){
+      lastEntry = lastEntry.toString() + numValue;
+    }
+    else if(/(\+|—|x|÷)/.test(lastEntry)){
       calcArr.push(lastEntry);//Is an arithmetic operator
       lastEntry = numValue;
     }
@@ -59,14 +56,20 @@ $(".num-btn").click(function() {
       //Is a number
       lastEntry = lastEntry.toString() + numValue;
     }
-    else if(lastEntry === ""){
+    else if(lastEntry === "" && (/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())){
       lastEntry = numValue;
+    }
+    else if (lastEntry === "" && !(/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())) {
+      lastEntry = calcArr[calcArr.length -1].toString() + numValue;
+      calcArr.pop();
     }
   }
 
   display(lastEntry,"numout")
   //Clear opout
   $(".opout").html("");
+
+  display(calcArr.join(" "),"summary");
 });
 
 
@@ -83,19 +86,21 @@ $(".op-btn").click(function() {
       calcArr.push(lastEntry)
       lastEntry = opValue;
     }
-    else if(lastEntry === ""){
-      lastEntry = numValue;
+    else if(lastEntry === "" && !(/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())){
+      lastEntry = opValue;
     }
     display(lastEntry,"opout")
   }
 
-
+display(calcArr.join(" "),"summary");
 });
 
 
 //On clicking Equals
 $(".btn-eql").click(function() {
+  calcArr.push(lastEntry);
 
+  display(calcArr.join(" "),"summary");
 });
 
 
@@ -104,6 +109,7 @@ $("#clear").click(function() {
   $(".summary,.opout").html("");
   $(".numout").html("0");
   calcArr = [];
+  lastEntry = "";
 });
 
 
@@ -120,11 +126,13 @@ $("#backspace").click(function() {
     if(lastChar.length === 0){
       calcArr.pop();
       lastChar = calcArr[calcArr.length -1].toString();
+      lastEntry = calcArr[calcArr.length -1].toString()
     }
 
     if(/(\+|—|x|÷)/.test(lastChar)){
       //Is an arithmetic operator
       calcArr.pop();
+      display(calcArr[calcArr.length - 1],"numout");
     }
     else if(/[0-9]/.test(lastChar)){
       //Is a number
@@ -167,4 +175,12 @@ $("#backspace").click(function() {
     }
 
   }
+  display(calcArr.join(" "),"summary");
+});
+
+
+// Scroll to bottom of display
+$(".btn").click(function(){
+  scrollToBottom();
+  console.log("Array : "+calcArr+"\n"+"lastEntry : "+lastEntry)
 });
