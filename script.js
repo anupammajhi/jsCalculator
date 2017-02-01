@@ -32,7 +32,36 @@ function calc(leftOp,operator,rightOp){
 }
 
 function calculateString(str){
-
+  index = -1;
+  if(str.length === 1){
+    return str[0];
+  }
+  else if(str.indexOf("error") >= 0){
+    return "error";
+  }
+  else if(str.indexOf("x") >= 0){
+    index = str.indexOf("x");
+    str.splice(index - 1,3,parseFloat(str[index-1])*parseFloat(str[index+1]));
+    calculateString(str)
+  }
+  else if(str.indexOf("÷") >= 0){
+    index = str.indexOf("÷");
+    if(parseFloat(str[index+1])===0){
+      str.splice(index - 1,3,"error");
+    }
+    str.splice(index - 1,3,parseFloat(str[index-1])/parseFloat(str[index+1]));
+    calculateString(str)
+  }
+  else if(str.indexOf("+") >= 0){
+    index = str.indexOf("+");
+    str.splice(index - 1,3,parseFloat(str[index-1])+parseFloat(str[index+1]));
+    calculateString(str)
+  }
+  else if(str.indexOf("—") >= 0){
+    index = str.indexOf("—");
+    str.splice(index - 1,3,parseFloat(str[index-1])-parseFloat(str[index+1]));
+    calculateString(str)
+  }
 }
 
 //On clicking number buttons
@@ -130,8 +159,23 @@ display(calcArr.join(" "),"summary");
 
 //On clicking Equals
 $(".btn-eql").click(function() {
-
+  if(calcArr.length === 0){
+    // Do Nothing
+  }
+  if((/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())){
+    calcArr.pop();
+  }
+  result = calculateString(calcArr);
+  if(result !== "error"){
   display(calcArr.join(" "),"summary");
+  display(calcArr.join(" "),"numout");
+  }
+  else {
+    display("Invalid Operation","summary");
+    display("ERROR","numout");
+  }
+  $(".opout").html("");
+
 });
 
 
@@ -147,12 +191,14 @@ $("#clear").click(function() {
 //On clicking backspace
 $("#backspace").click(function() {
 
-  lastchar = calcArr[calcArr.length -1].toString();
-
   if(calcArr.length === 0){
     // Do nothing
+    $(".summary,.opout").html("");
+    $(".numout").html("0");
+    return;
   }
-  else if(/(\+|—|x|÷)/.test(lastchar)){
+  lastchar = calcArr[calcArr.length -1].toString();
+  if(/(\+|—|x|÷)/.test(lastchar)){
     //Is an arithmetic operator
     calcArr.pop();
     $(".opout").html("");
@@ -163,7 +209,14 @@ $("#backspace").click(function() {
     if(calcArr[calcArr.length -1].toString() === ""){
       calcArr.pop();
     }
-    display(lastchar,"numout")
+
+    if(calcArr.length === 0){
+      display("0","numout")
+    }
+    else{
+        display(calcArr[calcArr.length -1],"numout")
+    }
+
   }
 
 
