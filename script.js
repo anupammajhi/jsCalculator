@@ -12,7 +12,7 @@ function display(val, outLoc) {
 }
 
 var calcArr = [];
-var lastEntry = "";
+lastCalculatedValue = "";
 
 //Function Calc to Calculate
 function calc(leftOp,operator,rightOp){
@@ -31,41 +31,68 @@ function calc(leftOp,operator,rightOp){
   }
 }
 
+function calculateString(str){
+
+}
+
 //On clicking number buttons
 $(".num-btn").click(function() {
 
   numValue = $(this)[0].innerText.toString()
 
+  if(calcArr.length === 0){
+    lastchar = "";
+  }
+  else{
+    lastcharN = calcArr[calcArr.length -1].toString();
+  }
+
+
   if(numValue === "."){
-    if(/\./.test(lastEntry)){
+    if(calcArr.length === 0){
+      calcArr.push("0.");
+    }
+    else if(/\./.test(lastcharN)){
       //Do  Nothing if already decimal point exists
     }
+    else if(parseFloat(lastcharN) === 0){
+      calcArr.pop();
+      calcArr.push("0.");
+    }
+    else if((/(\+|—|x|÷)/).test(lastcharN)){
+
+      calcArr.push("0.");
+    }
     else{
-      lastEntry = lastEntry.toString() + numValue;
+      calcArr[calcArr.length -1] = lastcharN + ".";
     }
   }
   else{
     if(calcArr.length === 0){
-      lastEntry = lastEntry.toString() + numValue;
+      calcArr.push(numValue);
     }
-    else if(/(\+|—|x|÷)/.test(lastEntry)){
-      calcArr.push(lastEntry);//Is an arithmetic operator
-      lastEntry = numValue;
-    }
-    else if(/[0-9]/.test(lastEntry)){
-      //Is a number
-      lastEntry = lastEntry.toString() + numValue;
-    }
-    else if(lastEntry === "" && (/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())){
-      lastEntry = numValue;
-    }
-    else if (lastEntry === "" && !(/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())) {
-      lastEntry = calcArr[calcArr.length -1].toString() + numValue;
+    else if(lastcharN === "0"){
       calcArr.pop();
+      calcArr.push(numValue);
+    }
+    else if(/(\+|—|x|÷)/.test(lastcharN)){
+      calcArr.push(numValue);
+    }
+    else if(/[0-9]/.test(lastcharN)){
+      //Is a number
+      calcArr[calcArr.length -1] = lastcharN + numValue;
     }
   }
 
-  display(lastEntry,"numout")
+  if(calcArr.length === 0){
+    display("0","numout")
+  }
+  else if(/(\+|—|x|÷)/.test(calcArr[calcArr.length -1].toString())){
+    display(calcArr[calcArr.length -1].toString(),"opout");
+  }
+  else{
+    display(calcArr[calcArr.length -1].toString(),"numout");
+  }
   //Clear opout
   $(".opout").html("");
 
@@ -76,29 +103,33 @@ $(".num-btn").click(function() {
 //On clicking operators
 $(".op-btn").click(function() {
 
-  opValue = $(this)[0].innerText.toString()
-  if(calcArr.length !== 0 || lastEntry){
-    if(/(\+|—|x|÷)/.test(lastEntry)){
-      lastEntry = opValue;
-    }
-    else if(/[0-9]/.test(lastEntry)){
-      //Is a number
-      calcArr.push(lastEntry)
-      lastEntry = opValue;
-    }
-    else if(lastEntry === "" && !(/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())){
-      lastEntry = opValue;
-    }
-    display(lastEntry,"opout")
+  if(/\.$/.test(calcArr[calcArr.length -1].toString())){
+    // If number ends with a decimal point, suffix 0
+    calcArr[calcArr.length -1] = calcArr[calcArr.length -1].toString() + "0"
   }
 
+  lastchar = calcArr[calcArr.length -1].toString();
+  opValue = $(this)[0].innerText.toString()
+
+  if(calcArr.length === 0){
+    //Do Nothing
+  }
+  else if(calcArr.length !== 0 && !(/(\+|—|x|÷)/).test(lastchar)){
+    calcArr.push(opValue);
+  }
+  else if((/(\+|—|x|÷)/).test(lastchar)){
+    calcArr.pop();
+    calcArr.push(opValue);
+  }
+
+
+display(opValue,"opout")
 display(calcArr.join(" "),"summary");
 });
 
 
 //On clicking Equals
 $(".btn-eql").click(function() {
-  calcArr.push(lastEntry);
 
   display(calcArr.join(" "),"summary");
 });
@@ -109,72 +140,33 @@ $("#clear").click(function() {
   $(".summary,.opout").html("");
   $(".numout").html("0");
   calcArr = [];
-  lastEntry = "";
+  lastCalculatedValue = "";
 });
 
 
 //On clicking backspace
 $("#backspace").click(function() {
-  if(lastEntry.length === 0){
-    if(calcArr.length < 1){
-      console.log("Empty : No Value Found");
-      return;
-    }
 
-    var lastChar = calcArr[calcArr.length -1].toString();
+  lastchar = calcArr[calcArr.length -1].toString();
 
-    if(lastChar.length === 0){
-      calcArr.pop();
-      lastChar = calcArr[calcArr.length -1].toString();
-      lastEntry = calcArr[calcArr.length -1].toString()
-    }
-
-    if(/(\+|—|x|÷)/.test(lastChar)){
-      //Is an arithmetic operator
-      calcArr.pop();
-      display(calcArr[calcArr.length - 1],"numout");
-    }
-    else if(/[0-9]/.test(lastChar)){
-      //Is a number
-      calcArr[calcArr.length - 1] = lastChar.substring(0,lastChar.length - 1);
-      if(calcArr[calcArr.length - 1] === ""){
-        display(0,"numout");
-      }
-      else{
-        display(calcArr[calcArr.length - 1],"numout");
-      }
-    }
-    else if(/\s/.test(lastChar)){
-      //Is blank
-      calcArr.pop();
-    }
-    else{
-      //error
-      console.log("Problem with Code at backspace ID event");
-    }
+  if(calcArr.length === 0){
+    // Do nothing
   }
-  else{ // i.e if lastEntry is not empty
-    if(/(\+|—|x|÷)/.test(lastEntry)){
-      //Is an arithmetic operator
-      lastEntry = "";
-      $(".opout").html("");
-    }
-    else if(/[0-9]/.test(lastEntry)){
-      //Is a number
-      lastEntry = lastEntry.substring(0,lastEntry.length - 1);
-      if(lastEntry.length === 0){
-        display(0,"numout");
-      }
-      else{
-        display(lastEntry,"numout");
-      }
-    }
-    else if(/\s/.test(lastEntry)){
-      //Is blank
-      lastEntry = "";
-    }
-
+  else if(/(\+|—|x|÷)/.test(lastchar)){
+    //Is an arithmetic operator
+    calcArr.pop();
+    $(".opout").html("");
   }
+  else if(/[0-9]/.test(lastchar)){
+    //Is a number
+    calcArr[calcArr.length -1] = lastchar.substring(0,lastchar.length - 1);
+    if(calcArr[calcArr.length -1].toString() === ""){
+      calcArr.pop();
+    }
+    display(lastchar,"numout")
+  }
+
+
   display(calcArr.join(" "),"summary");
 });
 
@@ -182,5 +174,5 @@ $("#backspace").click(function() {
 // Scroll to bottom of display
 $(".btn").click(function(){
   scrollToBottom();
-  console.log("Array : "+calcArr+"\n"+"lastEntry : "+lastEntry)
+  console.log("Array : "+calcArr+"\n"+"Clicked : "+$(this)[0].innerText)
 });
