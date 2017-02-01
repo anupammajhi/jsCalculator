@@ -49,8 +49,11 @@ function calculateString(str){
     if(parseFloat(str[index+1])===0){
       str.splice(index - 1,3,"error");
     }
+    else{
     str.splice(index - 1,3,parseFloat(str[index-1])/parseFloat(str[index+1]));
+    }
     calculateString(str)
+
   }
   else if(str.indexOf("+") >= 0){
     index = str.indexOf("+");
@@ -165,8 +168,8 @@ $(".btn-eql").click(function() {
   if((/(\+|—|x|÷)/).test(calcArr[calcArr.length -1].toString())){
     calcArr.pop();
   }
-  result = calculateString(calcArr);
-  if(result !== "error"){
+  calculateString(calcArr);
+  if(calcArr.indexOf("error") === -1){
   display(calcArr.join(" "),"summary");
   display(calcArr.join(" "),"numout");
   }
