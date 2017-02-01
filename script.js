@@ -65,12 +65,30 @@ $(".num-btn").click(function() {
   }
 
   display(lastEntry,"numout")
-
+  //Clear opout
+  $(".opout").html("");
 });
 
 
 //On clicking operators
 $(".op-btn").click(function() {
+
+  opValue = $(this)[0].innerText.toString()
+  if(calcArr.length !== 0 || lastEntry){
+    if(/(\+|—|x|÷)/.test(lastEntry)){
+      lastEntry = opValue;
+    }
+    else if(/[0-9]/.test(lastEntry)){
+      //Is a number
+      calcArr.push(lastEntry)
+      lastEntry = opValue;
+    }
+    else if(lastEntry === ""){
+      lastEntry = numValue;
+    }
+    display(lastEntry,"opout")
+  }
+
 
 });
 
