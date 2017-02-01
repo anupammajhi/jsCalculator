@@ -33,7 +33,7 @@ function calc(leftOp,operator,rightOp){
 
 // Scroll to bottom of display
 $(".btn").click(function(){
-  scrollToBottom
+  scrollToBottom();
 });
 
 
