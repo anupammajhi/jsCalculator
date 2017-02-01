@@ -40,6 +40,32 @@ $(".btn").click(function(){
 //On clicking number buttons
 $(".num-btn").click(function() {
 
+  numValue = $(this)[0].innerText.toString()
+
+  if(numValue === "."){
+    if(/\./.test(lastEntry)){
+      //Do  Nothing if already decimal point exists
+    }
+    else{
+      lastEntry = lastEntry.toString() + numValue;
+    }
+  }
+  else{
+    if(/(\+|—|x|÷)/.test(lastEntry)){
+      calcArr.push(lastEntry);//Is an arithmetic operator
+      lastEntry = numValue;
+    }
+    else if(/[0-9]/.test(lastEntry)){
+      //Is a number
+      lastEntry = lastEntry.toString() + numValue;
+    }
+    else if(lastEntry === ""){
+      lastEntry = numValue;
+    }
+  }
+
+  display(lastEntry,"numout")
+
 });
 
 
@@ -92,7 +118,7 @@ $("#backspace").click(function() {
         display(calcArr[calcArr.length - 1],"numout");
       }
     }
-    else if(/\s/){
+    else if(/\s/.test(lastChar)){
       //Is blank
       calcArr.pop();
     }
@@ -107,7 +133,7 @@ $("#backspace").click(function() {
       lastEntry = "";
       $(".opout").html("");
     }
-    else if(/[0-9]/.test(lastChar)){
+    else if(/[0-9]/.test(lastEntry)){
       //Is a number
       lastEntry = lastEntry.substring(0,lastEntry.length - 1);
       if(lastEntry.length === 0){
@@ -117,7 +143,7 @@ $("#backspace").click(function() {
         display(lastEntry,"numout");
       }
     }
-    else if(/\s/){
+    else if(/\s/.test(lastEntry)){
       //Is blank
       lastEntry = "";
     }
