@@ -14,27 +14,10 @@ function display(val, outLoc) {
 var calcArr = [];
 lastCalculatedValue = "";
 
-//Function Calc to Calculate
-function calc(leftOp,operator,rightOp){
-  switch(operator){
-    case '+': return leftOp + rightOp;
-    case '—': return leftOp - rightOp;
-    case 'x': return leftOp * rightOp;
-    case '÷': if(rightOp === 0){
-        return leftOp / rightOp;
-    }
-    else{
-      return "error"
-    }
-
-    default: console.log("Invalid Operation");
-  }
-}
-
 function calculateString(str){
   index = -1;
   if(str.length === 1){
-    return str[0];
+    return parseFloat(str[0]).toFixed(3);
   }
   else if(str.indexOf("error") >= 0){
     return "error";
@@ -73,7 +56,7 @@ $(".num-btn").click(function() {
   numValue = $(this)[0].innerText.toString()
 
   if(calcArr.length === 0){
-    lastchar = "";
+    lastcharN = "";
   }
   else{
     lastcharN = calcArr[calcArr.length -1].toString();
