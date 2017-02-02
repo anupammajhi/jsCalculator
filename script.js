@@ -159,6 +159,7 @@ $(".btn-eql").click(function() {
   else {
     display("Invalid Operation","summary");
     display("ERROR","numout");
+    calcArr = [];
   }
   $(".opout").html("");
 
